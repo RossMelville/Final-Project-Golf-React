@@ -24,8 +24,11 @@ class GolfContainer extends Component {
     xhr.send();
   }
 
+  getLocation() {
+
+  }
+
   render() {
-    console.log(this.state)
     return(
       <section>
         <p>Golf Stuff going here</p>
