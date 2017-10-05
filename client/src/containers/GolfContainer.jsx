@@ -10,6 +10,7 @@ class GolfContainer extends Component {
     return(
       <section>
         <p>Golf Stuff going here</p>
+        <button className="location">Location</button>
       </section>
     )
   }
