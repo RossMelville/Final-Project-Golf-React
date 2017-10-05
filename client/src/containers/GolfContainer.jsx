@@ -1,11 +1,14 @@
 import React, {Component} from 'react';
+import {geolocated} from 'react-geolocated';
+import Location from '../components/Location.jsx';
 
 class GolfContainer extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      shots: []
+      shots: [],
+      location: null
     }
   }
 
