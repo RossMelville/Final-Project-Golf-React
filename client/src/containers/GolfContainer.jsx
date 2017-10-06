@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {geolocated} from 'react-geolocated';
 import Location from '../components/Location.jsx';
 
 class GolfContainer extends Component {
@@ -35,7 +34,7 @@ class GolfContainer extends Component {
     return(
       <section>
         <p>Golf Stuff going here</p>
-        <button className="location">Location</button>
+        <Location />
       </section>
     )
   }
