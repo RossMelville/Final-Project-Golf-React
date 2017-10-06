@@ -33,9 +33,11 @@ class GolfContainer extends Component {
   }
 
   render() {
+    console.log(this.state.shots)
     return(
       <section>
         <p>Golf Stuff going here</p>
+
         <Location currentLocation={this.state.currentLocation} previousLocation={this.state.previousLocation}/>
       </section>
     )
