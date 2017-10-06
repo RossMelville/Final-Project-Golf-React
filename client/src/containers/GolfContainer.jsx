@@ -7,7 +7,9 @@ class GolfContainer extends Component {
     super(props);
     this.state = {
       shots: [],
-      location: null
+      currentLocation : null,
+      previousLocation: null
+
     }
   }
 
@@ -34,7 +36,7 @@ class GolfContainer extends Component {
     return(
       <section>
         <p>Golf Stuff going here</p>
-        <Location />
+        <Location currentLocation={this.state.currentLocation} previousLocation={this.state.previousLocation}/>
       </section>
     )
   }
