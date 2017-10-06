@@ -7,8 +7,8 @@ class GolfContainer extends Component {
     super(props);
     this.state = {
       shots: [],
-      currentLocation : null,
-      previousLocation: null
+      currentLocation : {latitude: null, longitude: null},
+      previousLocation: {latitude: null, longitude: null}
 
     }
   }

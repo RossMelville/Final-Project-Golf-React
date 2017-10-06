@@ -18,12 +18,13 @@ class Location extends Component {
   }
 
   showPosition(position) {
-      console.log(position)
-      console.log(this)
+      console.log(position.coords.latitude)
+      console.log(this.props)
+      this.props.currentLocation.latitude = position.coords.latitude;
+      this.props.currentLocation.longitude = position.coords.longitude;
   }
 
   render() {
-    console.log(this)
     return (
       <section>
       Location Stuff
