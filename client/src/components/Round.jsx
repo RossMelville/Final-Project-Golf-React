@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 
 
 
-class Location extends Component {
+class Round extends Component {
 
   constructor(props) {
     super(props);
@@ -66,18 +66,23 @@ class Location extends Component {
 
 
   render() {
-    console.log(this)
-    return (
-      <section>
-      Location Stuff
-      <button onClick={this.getLocation}>Get Location</button>
-      
-      </section>
-    )
+    if(this.props.state.selectedPage === "round") {
+      return (
+        <section>
+        Round Stuff
+        <button onClick={this.getLocation}>Get Location</button>
+        
+        </section>
+      )
+    }else{
+      return (
+        null
+      )
+    }
   }
     
 
 
 }
 
-export default Location
+export default Round

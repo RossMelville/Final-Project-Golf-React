@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import Location from '../components/Location.jsx';
+import Round from '../components/Round.jsx';
 
 class GolfContainer extends Component {
 
@@ -11,9 +11,7 @@ class GolfContainer extends Component {
       rounds: [],
       currentLocation : {latitude: null, longitude: null},
       previousLocation: {latitude: null, longitude: null},
-      startRound: false,
-      roundStats: false,
-      clubStats: false
+      selectedPage: "home"
 
     }
     this.startRound = this.startRound.bind(this)
@@ -76,20 +74,22 @@ class GolfContainer extends Component {
 
 
   render() {
-    return(
-      <section>
-        <h1>Golf Shot Tracker</h1>
-        <button onClick={this.startRound}>Start Round</button>
-        <br></br>
-        <button onClick={this.roundStats}>Round Stats</button>
-        <br></br>
-        <button onClick={this.clubStats}>Club Stats</button>
-        <Location currentLocation={this.state.currentLocation} previousLocation={this.state.previousLocation}/>
+    if(this.state.selectedPage === "home"){
+      return(
+        <section>
+          <h1>Golf Shot Tracker</h1>
+          <button onClick={this.startRound}>Start Round</button>
+          <br></br>
+          <button onClick={this.roundStats}>Round Stats</button>
+          <br></br>
+          <button onClick={this.clubStats}>Club Stats</button>
+          <Round state={this.state} />
 
 
-        
-      </section>
-    )
+          
+        </section>
+      )
+    }
   }
 
 }
