@@ -6,14 +6,22 @@ class CourseSelect extends Component {
     super(props)
   }
 
+  handleChange(event) {
+    var courseIndex = event.target.value;
+    var course = this.props.state.courses[courseIndex];
+
+    this.props.setCourse(course);
+  }
+
   render() {
     if(this.props.state.selectedPage === "selectCourse") {
-      var options = this.props.state.courses.map((course) => {
-            return <option value={course.id} key={course.id}>{course.name}</option>;
+      var options = this.props.state.courses.map((course, index) => {
+            console.log(course.id)
+            return <option value={index} key={index}>{course.name}</option>;
           });
 
           return (
-            <select id="courses" value={ this.props.state.selectedCourse } >
+            <select id="courses" value={ this.props.state.selectedCourse } onChange={this.handleChange.bind(this)}>
               { options }
             </select>
           )

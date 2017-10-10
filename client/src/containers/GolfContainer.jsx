@@ -16,7 +16,9 @@ class GolfContainer extends Component {
       courses: [],
       currentLocation : {latitude: null, longitude: null},
       previousLocation: {latitude: null, longitude: null},
-      selectedPage: "home"
+      selectedPage: "home",
+      selectedCourse: {},
+      currentHole: 1
 
     }
     this.startRound = this.startRound.bind(this)
@@ -94,6 +96,10 @@ class GolfContainer extends Component {
     this.setState({selectedPage: "clubStats"})
   }
 
+  setCourse(course) {
+    this.setState({selectedCourse: course, selectedPage: "round"})
+  }
+
 
   render() {
     return(
@@ -102,7 +108,7 @@ class GolfContainer extends Component {
         <Round state={this.state} />
         <RoundStats state={this.state}/>
         <ClubStats state={this.state}/>
-        <CourseSelect state={this.state}/>      
+        <CourseSelect state={this.state} setCourse={this.setCourse.bind(this)}/>      
       </section>
     )
   }

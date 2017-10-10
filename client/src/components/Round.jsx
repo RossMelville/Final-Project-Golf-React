@@ -66,6 +66,7 @@ class Round extends Component {
 
 
   render() {
+    console.log(this)
     if(this.props.state.selectedPage === "round") {
       return (
         <section>
