@@ -18,7 +18,8 @@ class GolfContainer extends Component {
       previousLocation: {latitude: null, longitude: null},
       selectedPage: "home",
       selectedCourse: {},
-      currentHole: {}
+      currentHole: {},
+      currentRound: {}
 
     }
     this.startRound = this.startRound.bind(this)
@@ -106,7 +107,27 @@ class GolfContainer extends Component {
       return element.course_id === course.id;
     })
 
+    var round = this.saveRound(course)
+
     this.setState({currentHole: hole})
+  }
+
+  saveRound(course) {
+    const data = {
+          course: course.name,
+          course_id: course.id,
+          date: new Date()
+          }
+
+    const url = "http://localhost:3000/rounds"
+    const xhr = new XMLHttpRequest()
+    xhr.open('POST', url)
+    xhr.setRequestHeader("Content-Type", "application/json")
+    xhr.onreadystatechange = () => { 
+      var round = xhr.responseText;
+      this.setState({currentRound: round});
+    }
+    xhr.send(JSON.stringify(data))
   }
 
 

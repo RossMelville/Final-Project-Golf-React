@@ -9,7 +9,6 @@ class CourseSelect extends Component {
   handleChange(event) {
     var courseIndex = event.target.value;
     var course = this.props.state.courses[courseIndex];
-    console.log(course)
 
     this.props.setCourse(course);
   }
