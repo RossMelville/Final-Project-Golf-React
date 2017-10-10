@@ -8,11 +8,15 @@ class CourseSelect extends Component {
 
   render() {
     if(this.props.state.selectedPage === "selectCourse") {
-      return (
-        <section>
-          Course Select Stuff
-        </section>
-      )
+      var options = this.props.state.courses.map((course) => {
+            return <option value={course.id} key={course.id}>{course.name}</option>;
+          });
+
+          return (
+            <select id="courses" value={ this.props.state.selectedCourse } >
+              { options }
+            </select>
+          )
     }else{
       return (
         null
@@ -26,3 +30,4 @@ class CourseSelect extends Component {
 
 
 export default CourseSelect
+
