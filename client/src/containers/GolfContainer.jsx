@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import Round from '../components/Round.jsx';
 import Home from '../components/Home.jsx';
+import RoundStats from '../components/RoundStats.jsx';
+import ClubStats from '../components/ClubStats.jsx';
 
 class GolfContainer extends Component {
 
@@ -80,6 +82,8 @@ class GolfContainer extends Component {
         <section>
           <Home state={this.state} startRound={this.startRound.bind(this)} roundStats={this.roundStats.bind(this)} clubStats={this.clubStats.bind(this)}/>
           <Round state={this.state} />
+          <RoundStats state={this.state}/>
+          <ClubStats state={this.state}/>
 
 
           
