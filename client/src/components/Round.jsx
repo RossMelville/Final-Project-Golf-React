@@ -62,7 +62,30 @@ class Round extends Component {
   
   }
 
+  degreesToRadians(degrees) {
+    return degrees * Math.PI / 180
+  }
 
+  distanceInYards(lat1, lon1, lat2, lon2) {
+    var earthRadiusYards = 6967410.3237095;
+
+    var dLat = degreesToRadians(lat2-lat1);
+    var dLon = degreesToRadians(lon2-lon1);
+
+    lat1 = degreesToRadians(lat1);
+    lat2 = degreesToRadians(lat2);
+
+    var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+            Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2);
+
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+    return earthRadiusYards * c;
+  }
+
+  calculateYardage() {
+    console.log(this)
+  }
 
 
   render() {
@@ -71,6 +94,11 @@ class Round extends Component {
       return (
         <section>
           <div>Hole {this.props.state.currentHole.number}</div>
+          <br></br>
+          <div>Distance to front {this.calculateYardage.bind(this)}</div>
+          <br></br>
+          <br></br>
+          <br></br>
           <br></br>
         <button onClick={this.getLocation}>Get Location</button>
         
