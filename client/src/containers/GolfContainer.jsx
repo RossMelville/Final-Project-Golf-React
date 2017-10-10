@@ -10,10 +10,15 @@ class GolfContainer extends Component {
       holes: [],
       rounds: [],
       currentLocation : {latitude: null, longitude: null},
-      previousLocation: {latitude: null, longitude: null}
+      previousLocation: {latitude: null, longitude: null},
+      startRound: false,
+      roundStats: false,
+      clubStats: false
 
     }
-    this.buttonPressed = this.buttonPressed.bind(this)
+    this.startRound = this.startRound.bind(this)
+    this.roundStats = this.roundStats.bind(this)
+    this.clubStats = this.clubStats.bind(this)
   }
 
   componentDidMount() {
@@ -57,7 +62,15 @@ class GolfContainer extends Component {
     xhr3.send();
   }
 
-  buttonPressed() {
+  startRound() {
+    console.log(this)
+  }
+
+  roundStats() {
+    console.log(this)
+  }
+
+  clubStats() {
     console.log(this)
   }
 
@@ -66,7 +79,13 @@ class GolfContainer extends Component {
     return(
       <section>
         <h1>Golf Shot Tracker</h1>
-        <button onClick={this.buttonPressed}>Start Round</button>
+        <button onClick={this.startRound}>Start Round</button>
+        <br></br>
+        <button onClick={this.roundStats}>Round Stats</button>
+        <br></br>
+        <button onClick={this.clubStats}>Club Stats</button>
+        <Location currentLocation={this.state.currentLocation} previousLocation={this.state.previousLocation}/>
+
 
         
       </section>

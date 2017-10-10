@@ -8,7 +8,7 @@ class Location extends Component {
     super(props);
     this.getLocation = this.getLocation.bind(this);
     this.showPosition = this.showPosition.bind(this);
-    // this.recordShot = this.recordShot.bind(this);
+    this.recordShot = this.recordShot.bind(this);
 
 
   }
@@ -44,19 +44,21 @@ class Location extends Component {
 
   saveShot(){
 
-    const data = {
-          start_lat: this.props.previousLocation.latitude,
-          start_lon: this.props.previousLocation.longitude,
-          end_lat: this.props.currentLocation.latitude,
-          end_lon: this.props.currentLocation.longitude
-          }
+    console.log("This is where the shot would get saved.")
 
-    console.log(this)
-    const url = "http://localhost:3000/api/shots"
-    const xhr = new XMLHttpRequest()
-    xhr.open('POST', url)
-    xhr.setRequestHeader("Content-Type", "application/json")
-    xhr.send(JSON.stringify(data))
+    // const data = {
+    //       start_lat: this.props.previousLocation.latitude,
+    //       start_lon: this.props.previousLocation.longitude,
+    //       end_lat: this.props.currentLocation.latitude,
+    //       end_lon: this.props.currentLocation.longitude
+    //       }
+
+    // console.log(this)
+    // const url = "http://localhost:3000/shots"
+    // const xhr = new XMLHttpRequest()
+    // xhr.open('POST', url)
+    // xhr.setRequestHeader("Content-Type", "application/json")
+    // xhr.send(JSON.stringify(data))
   
   }
 
@@ -64,6 +66,7 @@ class Location extends Component {
 
 
   render() {
+    console.log(this)
     return (
       <section>
       Location Stuff
