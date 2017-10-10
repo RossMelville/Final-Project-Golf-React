@@ -72,7 +72,7 @@ class GolfContainer extends Component {
   }
 
   clubStats() {
-    console.log(this)
+    this.setState({selectedPage: "clubStats"})
   }
 
 
