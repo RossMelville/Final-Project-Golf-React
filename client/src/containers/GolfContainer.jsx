@@ -3,6 +3,7 @@ import Round from '../components/Round.jsx';
 import Home from '../components/Home.jsx';
 import RoundStats from '../components/RoundStats.jsx';
 import ClubStats from '../components/ClubStats.jsx';
+import CourseSelect from '../components/CourseSelect';
 
 class GolfContainer extends Component {
 
@@ -100,7 +101,8 @@ class GolfContainer extends Component {
         <Home state={this.state} selectCourse={this.selectCourse.bind(this)} roundStats={this.roundStats.bind(this)} clubStats={this.clubStats.bind(this)}/>
         <Round state={this.state} />
         <RoundStats state={this.state}/>
-        <ClubStats state={this.state}/>          
+        <ClubStats state={this.state}/>
+        <CourseSelect state={this.state}/>      
       </section>
     )
   }
