@@ -70,7 +70,8 @@ class Round extends Component {
     if(this.props.state.selectedPage === "round") {
       return (
         <section>
-        Round Stuff
+          <div>Hole {this.props.state.currentHole.number}</div>
+          <br></br>
         <button onClick={this.getLocation}>Get Location</button>
         
         </section>

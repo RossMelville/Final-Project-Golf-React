@@ -18,12 +18,14 @@ class GolfContainer extends Component {
       previousLocation: {latitude: null, longitude: null},
       selectedPage: "home",
       selectedCourse: {},
-      currentHole: 1
+      currentHole: {}
 
     }
     this.startRound = this.startRound.bind(this)
     this.roundStats = this.roundStats.bind(this)
     this.clubStats = this.clubStats.bind(this)
+  
+
   }
 
   componentDidMount() {
@@ -97,7 +99,14 @@ class GolfContainer extends Component {
   }
 
   setCourse(course) {
-    this.setState({selectedCourse: course, selectedPage: "round"})
+    this.setState({selectedCourse: course})
+    this.setState({selectedPage: "round"})
+
+    var hole = this.state.holes.find((element) => {
+      return element.course_id === course.id;
+    })
+
+    this.setState({currentHole: hole})
   }
 
 
