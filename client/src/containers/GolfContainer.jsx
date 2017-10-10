@@ -64,12 +64,11 @@ class GolfContainer extends Component {
   }
 
   startRound() {
-    console.log(this)
     this.setState({selectedPage: "round"})
   }
 
   roundStats() {
-    console.log(this)
+    this.setState({selectedPage: "roundStats"})
   }
 
   clubStats() {
