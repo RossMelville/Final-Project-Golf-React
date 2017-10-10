@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import Round from '../components/Round.jsx';
+import Home from '../components/Home.jsx';
 
 class GolfContainer extends Component {
 
@@ -77,12 +78,7 @@ class GolfContainer extends Component {
     if(this.state.selectedPage === "home"){
       return(
         <section>
-          <h1>Golf Shot Tracker</h1>
-          <button onClick={this.startRound}>Start Round</button>
-          <br></br>
-          <button onClick={this.roundStats}>Round Stats</button>
-          <br></br>
-          <button onClick={this.clubStats}>Club Stats</button>
+          <Home state={this.state} startRound={this.startRound.bind(this)} roundStats={this.roundStats.bind(this)} clubStats={this.clubStats.bind(this)}/>
           <Round state={this.state} />
 
 
