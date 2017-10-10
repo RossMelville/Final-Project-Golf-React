@@ -65,6 +65,7 @@ class GolfContainer extends Component {
 
   startRound() {
     console.log(this)
+    this.setState({selectedPage: "round"})
   }
 
   roundStats() {
@@ -77,19 +78,14 @@ class GolfContainer extends Component {
 
 
   render() {
-    if(this.state.selectedPage === "home"){
-      return(
-        <section>
-          <Home state={this.state} startRound={this.startRound.bind(this)} roundStats={this.roundStats.bind(this)} clubStats={this.clubStats.bind(this)}/>
-          <Round state={this.state} />
-          <RoundStats state={this.state}/>
-          <ClubStats state={this.state}/>
-
-
-          
-        </section>
-      )
-    }
+    return(
+      <section>
+        <Home state={this.state} startRound={this.startRound.bind(this)} roundStats={this.roundStats.bind(this)} clubStats={this.clubStats.bind(this)}/>
+        <Round state={this.state} />
+        <RoundStats state={this.state}/>
+        <ClubStats state={this.state}/>          
+      </section>
+    )
   }
 
 }
