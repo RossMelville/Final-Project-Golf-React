@@ -12,6 +12,7 @@ class GolfContainer extends Component {
       shots: [],
       holes: [],
       rounds: [],
+      courses: [],
       currentLocation : {latitude: null, longitude: null},
       previousLocation: {latitude: null, longitude: null},
       selectedPage: "home"
@@ -36,7 +37,7 @@ class GolfContainer extends Component {
     }
     xhr.send();
 
-    const url2 = "http://localhost:3000/shots/7/holes"
+    const url2 = "http://localhost:3000/holes"
     const xhr2 = new XMLHttpRequest();
     xhr2.open('GET', url2);
     xhr2.onload = () => {
@@ -49,7 +50,7 @@ class GolfContainer extends Component {
     }
     xhr2.send();
 
-    const url3 = "http://localhost:3000/shots/7/holes/96/rounds"
+    const url3 = "http://localhost:3000/rounds"
     const xhr3 = new XMLHttpRequest();
     xhr3.open('GET', url3);
     xhr3.onload = () => {
@@ -61,10 +62,27 @@ class GolfContainer extends Component {
       }
     }
     xhr3.send();
+
+    const url4 = "http://localhost:3000/courses"
+    const xhr4 = new XMLHttpRequest();
+    xhr4.open('GET', url4);
+    xhr4.onload = () => {
+      if(xhr4.status === 200) {
+        const data4 = JSON.parse(xhr4.responseText);
+        this.setState({
+          courses: data4
+        })
+      }
+    }
+    xhr4.send();
   }
 
   startRound() {
     this.setState({selectedPage: "round"})
+  }
+
+  selectCourse() {
+    this.setState({selectedPage: "selectCourse"})
   }
 
   roundStats() {
@@ -79,7 +97,7 @@ class GolfContainer extends Component {
   render() {
     return(
       <section>
-        <Home state={this.state} startRound={this.startRound.bind(this)} roundStats={this.roundStats.bind(this)} clubStats={this.clubStats.bind(this)}/>
+        <Home state={this.state} selectCourse={this.selectCourse.bind(this)} roundStats={this.roundStats.bind(this)} clubStats={this.clubStats.bind(this)}/>
         <Round state={this.state} />
         <RoundStats state={this.state}/>
         <ClubStats state={this.state}/>          
