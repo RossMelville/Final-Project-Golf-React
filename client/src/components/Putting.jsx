@@ -6,7 +6,13 @@ class Putting extends Component {
     super(props);
   }
 
-  
+  render() {
+    return(
+      <section>
+        <div>Putting stuff</div>
+      </section>
+    )
+  }
 
 }
 
