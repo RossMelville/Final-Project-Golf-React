@@ -14,8 +14,10 @@ class GolfContainer extends Component {
       holes: [],
       rounds: [],
       courses: [],
-      currentLocation : {latitude: null, longitude: null},
-      previousLocation: {latitude: null, longitude: null},
+      currentLocationLat: null,
+      currentLocationLon: null,
+      previousLocationLat: null,
+      previousLocationLon: null,
       selectedPage: "home",
       selectedCourse: {},
       currentHole: {},
@@ -134,12 +136,78 @@ class GolfContainer extends Component {
     xhr.send(JSON.stringify(data))
   }
 
+  setPreviousPosition() {
+    this.setState({previousLocationLat: this.state.currentLocationLat});
+    this.setState({previousLocationLon: this.state.currentLocationLon});
+  }
+
+  setCurrentPosition(position) {
+    this.setState({currentLocationLat: position.coords.latitude});
+    this.setState({currentLocationLon: position.coords.longitude});
+    this.frontMiddleBack();
+  }
+
+  frontMiddleBack() {
+    var distanceToB = this.calculateYardage(3)
+    var distanceToM = this.calculateYardage(2)
+    var distanceToF = this.calculateYardage(1)
+
+    this.setState({distanceToFront:  distanceToF});
+    this.setState({distanceToMiddle:  distanceToM});
+    this.setState({distanceToBack:  distanceToB});
+
+    console.log(this.state.distanceToBack)
+  }
+
+  degreesToRadians(degrees) {
+    return degrees * Math.PI / 180
+  }
+
+  distanceInYards(lat1, lon1, lat2, lon2) {
+    var earthRadiusYards = 6967840;
+
+    var dLat = this.degreesToRadians(lat2-lat1);
+    var dLon = this.degreesToRadians(lon2-lon1);
+
+    lat1 = this.degreesToRadians(lat1);
+    lat2 = this.degreesToRadians(lat2);
+
+    var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+            Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2);
+
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+    return earthRadiusYards * c;
+  }
+
+  calculateYardage(param) {
+    var lat1 = this.state.currentLocationLat;
+    var lon1 = this.state.currentLocationLon;
+    // var lat1 = 55.975874;
+    // var lon1 = -3.404413;
+
+    if(param === 1){
+      var lat2 = this.state.currentHole.green_front_lat;
+      var lon2 = this.state.currentHole.green_front_lon;
+    }else if(param === 2){
+      var lat2 = this.state.currentHole.green_middle_lat;
+      var lon2 = this.state.currentHole.green_middle_lon;
+    }else{
+      var lat2 = this.state.currentHole.green_back_lat;
+      var lon2 = this.state.currentHole.green_back_lon;
+    } 
+      
+    var yard = this.distanceInYards(lat1, lon1, lat2, lon2);
+
+    return Math.round(yard); 
+  }
+
 
   render() {
     return(
       <section>
         <Home selectedPage={this.state.selectedPage} selectCourse={this.selectCourse.bind(this)} roundStats={this.roundStats.bind(this)} clubStats={this.clubStats.bind(this)}/>
-        <Round state={this.state} />
+        <Round setPreviousPosition={this.setPreviousPosition.bind(this)} setCurrentPosition={this.setCurrentPosition.bind(this)} selectedPage={this.state.selectedPage} currentLocationLat={this.state.currentLocationLat} currentLocationLon={this.state.currentLocationLon} previousLocationLat={this.state.previousLocationLat} previousLocationLon={this.state.previousLocationLon} currentHole={this.state.currentHole} currentRound={this.state.currentRound} distanceToFront={this.state.distanceToFront} distanceToMiddle={this.state.distanceToMiddle} distanceToBack={this.state.distanceToBack}/>
         <RoundStats selectedPage={this.state.selectedPage}/>
         <ClubStats selectedPage={this.state.selectedPage}/>
         <CourseSelect courses={this.state.courses} selectedPage={this.state.selectedPage} selectedCourse={this.state.selectedCourse} setCourse={this.setCourse.bind(this)}/>      
