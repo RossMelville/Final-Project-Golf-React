@@ -3,7 +3,8 @@ import Round from '../components/Round.jsx';
 import Home from '../components/Home.jsx';
 import RoundStats from '../components/RoundStats.jsx';
 import ClubStats from '../components/ClubStats.jsx';
-import CourseSelect from '../components/CourseSelect';
+import CourseSelect from '../components/CourseSelect.jsx';
+import Putting from '../components/Putting.jsx';
 
 class GolfContainer extends Component {
 
@@ -30,10 +31,12 @@ class GolfContainer extends Component {
       selectedClubShots: [],
       selectedClubDetails: [],
       holeShots: [],
-      shotDistance: null
+      shotDistance: null,
+      putts: [0,1,2,3,4,5,6,7,8,9],
+      noOfPutts: undefined
 
     }
-    this.startRound = this.startRound.bind(this)
+    this.goToRound = this.goToRound.bind(this)
     this.roundStats = this.roundStats.bind(this)
     this.clubStats = this.clubStats.bind(this)
   }
@@ -92,7 +95,7 @@ class GolfContainer extends Component {
     xhr4.send();
   }
 
-  startRound() {
+  goToRound() {
     this.setState({selectedPage: "round"})
   }
 
@@ -248,13 +251,29 @@ class GolfContainer extends Component {
           club: this.state.selectedClub,
           hole_id: this.state.currentHole.id,
           round_id: this.state.currentRound["id"]
-          }
+    }  
+    this.logShot(data);
+  }
 
+  logShot(data) {
     const url = "http://localhost:3000/shots"
     const xhr = new XMLHttpRequest()
     xhr.open('POST', url)
     xhr.setRequestHeader("Content-Type", "application/json")
-    xhr.send(JSON.stringify(data))  
+    xhr.send(JSON.stringify(data))
+  }
+
+  logPutts(putts) {
+    var i;
+    for(i=0; i < putts; i++) {
+      var data = {
+        round_id: this.state.currentRound["id"],
+        hole_id: this.state.currentHole.id,
+        club: this.state.selectedClub
+      }
+      this.logShot(data);
+    }
+    
   }
 
   render() {
@@ -297,6 +316,13 @@ class GolfContainer extends Component {
         selectedPage={this.state.selectedPage} 
         selectedCourse={this.state.selectedCourse} 
         setCourse={this.setCourse.bind(this)}/> 
+
+        <Putting 
+        selectedPage={this.state.selectedPage}
+        goToRound={this.goToRound.bind(this)}
+        putts={this.state.putts}
+        noOfPutts={this.state.noOfPutts}
+        logPutts={this.logPutts.bind(this)}/>
 
       </section>
     )

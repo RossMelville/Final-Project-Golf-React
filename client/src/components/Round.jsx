@@ -49,10 +49,7 @@ class Round extends Component {
       var shots = this.props.holeShots.map((shot, index) => {
         return <div value={index} key={index}>{shot.club} - {shot.distance} yards</div>;
       });
-
-      console.log(shots);
       
-
       return (
         <section>
           <div>Hole {this.props.currentHole.number}</div>
