@@ -138,10 +138,10 @@ class GolfContainer extends Component {
   render() {
     return(
       <section>
-        <Home state={this.state} selectCourse={this.selectCourse.bind(this)} roundStats={this.roundStats.bind(this)} clubStats={this.clubStats.bind(this)}/>
+        <Home selectedPage={this.state.selectedPage} selectCourse={this.selectCourse.bind(this)} roundStats={this.roundStats.bind(this)} clubStats={this.clubStats.bind(this)}/>
         <Round state={this.state} />
-        <RoundStats state={this.state}/>
-        <ClubStats state={this.state}/>
+        <RoundStats selectedPage={this.state.selectedPage}/>
+        <ClubStats selectedPage={this.state.selectedPage}/>
         <CourseSelect courses={this.state.courses} selectedPage={this.state.selectedPage} selectedCourse={this.state.selectedCourse} setCourse={this.setCourse.bind(this)}/>      
       </section>
     )

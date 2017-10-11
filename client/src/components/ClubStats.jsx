@@ -7,7 +7,7 @@ class ClubStats extends Component {
   }
 
   render() {
-    if(this.props.state.selectedPage === "clubStats") {
+    if(this.props.selectedPage === "clubStats") {
       return (
         <section>
           Club Stats and stuff.

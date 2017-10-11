@@ -7,7 +7,7 @@ class RoundStats extends Component {
   }
 
   render() {
-    if(this.props.state.selectedPage === "roundStats") {
+    if(this.props.selectedPage === "roundStats") {
       return (
         <section>
           Round Stats and stuff.

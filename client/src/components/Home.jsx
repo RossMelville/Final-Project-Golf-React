@@ -8,7 +8,7 @@ class Home extends Component {
 
 
   render() {
-    if(this.props.state.selectedPage === "home") {
+    if(this.props.selectedPage === "home") {
       return (
         <section>
           <h1>Golf Shot Tracker</h1>
