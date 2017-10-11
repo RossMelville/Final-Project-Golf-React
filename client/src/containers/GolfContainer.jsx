@@ -30,10 +30,12 @@ class GolfContainer extends Component {
       selectedClub: "",
       selectedClubShots: [],
       selectedClubDetails: [],
+      selectedCourseHoles: [],
       holeShots: [],
       shotDistance: null,
       putts: [0,1,2,3,4,5,6,7,8,9],
-      noOfPutts: undefined
+      noOfPutts: undefined,
+      holeIndex: 0
 
     }
     this.goToRound = this.goToRound.bind(this)
@@ -113,14 +115,7 @@ class GolfContainer extends Component {
 
   setCourse(course) {
     this.setState({selectedCourse: course})
-    this.setState({selectedPage: "round"})
-
-    var hole = this.state.holes.find((element) => {
-      return element.course_id === course.id;
-    })
-
-    this.setState({currentHole: hole})
-
+    this.getHolesForCourse(course)
     var round = this.saveRound(course)
   }
 
@@ -136,7 +131,7 @@ class GolfContainer extends Component {
     xhr.open('POST', url)
     xhr.setRequestHeader("Content-Type", "application/json")
     xhr.onreadystatechange = () => { 
-      var round = xhr.responseText;
+      var round = JSON.parse(xhr.responseText);
       this.setState({currentRound: round});
     }
     xhr.send(JSON.stringify(data))
@@ -187,8 +182,6 @@ class GolfContainer extends Component {
   calculateYardage(param) {
     var lat1 = this.state.currentLocationLat;
     var lon1 = this.state.currentLocationLon;
-    // var lat1 = 55.975874;
-    // var lon1 = -3.404413;
 
     if(param === 1){
       var lat2 = this.state.currentHole.green_front_lat;
@@ -222,6 +215,25 @@ class GolfContainer extends Component {
     this.setState({selectedClubShots: selectedShots});
   }
 
+  getHolesForCourse(course) {
+    let selectedHoles = this.state.holes.filter(function(hole){
+      return hole.course_id === course.id
+    });
+    this.setState({selectedCourseHoles: selectedHoles});
+    this.getCurrentHole(selectedHoles);
+
+  }
+
+  getCurrentHole(holes) {
+    let index = this.state.holeIndex;
+    let hole = holes[index];
+    let newIndex = index +1;
+    this.setState({currentHole: hole});
+    this.setState({holeIndex: newIndex});
+    
+    this.goToRound();
+  }
+
   getShotDistance() {
     var lat1 = this.state.currentLocationLat;
     var lon1 = this.state.currentLocationLon;
@@ -241,7 +253,6 @@ class GolfContainer extends Component {
   }
 
   saveShot(shotDistance){
-    console.log(this.state.currentRound)
     const data = {
           start_lat: this.state.previousLocationLat,
           start_lon: this.state.previousLocationLon,
@@ -250,7 +261,7 @@ class GolfContainer extends Component {
           distance: shotDistance,
           club: this.state.selectedClub,
           hole_id: this.state.currentHole.id,
-          round_id: this.state.currentRound["id"]
+          round_id: this.state.currentRound.id
     }  
     this.logShot(data);
   }
@@ -264,16 +275,27 @@ class GolfContainer extends Component {
   }
 
   logPutts(putts) {
+    this.setState({noOfPutts: undefined});
+    this.setState({selectedClub: ""})
+    this.setState({currentLocationLat: null});
+    this.setState({currentLocationLon: null});
+    this.setState({previousLocationLat: null});
+    this.setState({previousLocationLon: null});
+    this.setState({distanceToBack: "Please plot your ball position"});
+    this.setState({distanceToMiddle: "Please plot your ball position"});
+    this.setState({distanceToFront: "Please plot your ball position"});
+
     var i;
     for(i=0; i < putts; i++) {
       var data = {
-        round_id: this.state.currentRound["id"],
+        round_id: this.state.currentRound.id,
         hole_id: this.state.currentHole.id,
-        club: this.state.selectedClub
+        club: "Putter"
       }
       this.logShot(data);
     }
-    
+
+    this.getCurrentHole(this.state.selectedCourseHoles);
   }
 
   render() {

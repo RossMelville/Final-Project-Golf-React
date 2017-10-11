@@ -20,9 +20,12 @@ class CourseSelect extends Component {
           });
 
           return (
-            <select id="courses" value={ this.props.selectedCourse } onChange={this.handleChange.bind(this)}>
-              { options }
-            </select>
+            <section>
+              <div>Please select your course</div>
+              <select id="courses" value={ this.props.selectedCourse } onChange={this.handleChange.bind(this)}>
+                { options }
+              </select>
+            </section>
           )
     }else{
       return (
@@ -30,9 +33,7 @@ class CourseSelect extends Component {
       )
     }
   }
-
-
-
+  
 }
 
 
