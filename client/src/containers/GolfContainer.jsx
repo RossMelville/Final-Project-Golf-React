@@ -19,7 +19,10 @@ class GolfContainer extends Component {
       selectedPage: "home",
       selectedCourse: {},
       currentHole: {},
-      currentRound: {}
+      currentRound: {},
+      distanceToBack: "Please plot your ball position",
+      distanceToMiddle: "Please plot your ball position",
+      distanceToFront: "Please plot your ball position"
 
     }
     this.startRound = this.startRound.bind(this)
@@ -107,9 +110,10 @@ class GolfContainer extends Component {
       return element.course_id === course.id;
     })
 
+    this.setState({currentHole: hole})
+
     var round = this.saveRound(course)
 
-    this.setState({currentHole: hole})
   }
 
   saveRound(course) {
@@ -138,7 +142,7 @@ class GolfContainer extends Component {
         <Round state={this.state} />
         <RoundStats state={this.state}/>
         <ClubStats state={this.state}/>
-        <CourseSelect state={this.state} setCourse={this.setCourse.bind(this)}/>      
+        <CourseSelect courses={this.state.courses} selectedPage={this.state.selectedPage} selectedCourse={this.state.selectedCourse} setCourse={this.setCourse.bind(this)}/>      
       </section>
     )
   }

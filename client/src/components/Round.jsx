@@ -20,24 +20,25 @@ class Round extends Component {
   }
 
   showPosition(position) {
-    console.log(this.props);
-    if(this.props.currentLocation.latitude != null) {
+    if(this.props.state.currentLocation.latitude != null) {
 
-      this.props.previousLocation.latitude = this.props.currentLocation.latitude;
-      this.props.previousLocation.longitude = this.props.currentLocation.longitude;
+      this.props.state.previousLocation.latitude = this.props.state.currentLocation.latitude;
+      this.props.state.previousLocation.longitude = this.props.state.currentLocation.longitude;
 
     }
 
-    this.props.currentLocation.latitude = position.coords.latitude;
-    this.props.currentLocation.longitude = position.coords.longitude;
+    this.props.state.currentLocation.latitude = position.coords.latitude;
+    this.props.state.currentLocation.longitude = position.coords.longitude;
 
     this.recordShot();
   }
 
   recordShot() {
-    if((this.props.previousLocation.latitude != null) && (this.props.currentLocation.latitude != null)) {
+    if((this.props.state.previousLocation.latitude != null) && (this.props.state.currentLocation.latitude != null)) {
+      this.frontMiddleBack();
       this.saveShot();
     } else {
+      this.frontMiddleBack();
       console.log("unable to record shot");
     }
   }
@@ -45,10 +46,10 @@ class Round extends Component {
   saveShot(){
 
     const data = {
-          start_lat: this.props.previousLocation.latitude,
-          start_lon: this.props.previousLocation.longitude,
-          end_lat: this.props.currentLocation.latitude,
-          end_lon: this.props.currentLocation.longitude
+          start_lat: this.props.state.previousLocation.latitude,
+          start_lon: this.props.state.previousLocation.longitude,
+          end_lat: this.props.state.currentLocation.latitude,
+          end_lon: this.props.state.currentLocation.longitude
           }
 
     const url = "http://localhost:3000/shots"
@@ -56,6 +57,7 @@ class Round extends Component {
     xhr.open('POST', url)
     xhr.setRequestHeader("Content-Type", "application/json")
     xhr.send(JSON.stringify(data))
+
   
   }
 
@@ -80,29 +82,58 @@ class Round extends Component {
     return earthRadiusYards * c;
   }
 
-  calculateYardage() {
-    var lat1 = 55.975871;
-    var lon1 = -3.404290;
-    var lat2 = this.props.state.currentHole.green_middle_lat;
-    var lon2 = this.props.state.currentHole.green_middle_lon;
+  calculateYardage(param) {
+    if(this.props.state.currentLocation.latitude != null){
+      var lat1 = this.props.state.currentLocation.latitude;
+      var lon1 = this.props.state.currentLocation.longitude;
 
-    var yard = this.distanceInYards(lat1, lon1, lat2, lon2);
-    console.log("Yardage ", yard);
-    return Math.round(yard);
+      if(param === "front"){
+        var lat2 = this.props.state.currentHole.green_front_lat;
+        var lon2 = this.props.state.currentHole.green_front_lon;
+      }else if(param === "middle"){
+        var lat2 = this.props.state.currentHole.green_middle_lat;
+        var lon2 = this.props.state.currentHole.green_middle_lon;
+      }else{
+        var lat2 = this.props.state.currentHole.green_back_lat;
+        var lon2 = this.props.state.currentHole.green_back_lon;
+      } 
+      
+      var yard = this.distanceInYards(lat1, lon1, lat2, lon2);
+
+      return Math.round(yard);
+    }else{
+      return "Please plot your ball position";
+    }
+  }
+
+  frontMiddleBack() {
+    var distanceToBack = this.calculateYardage("Back")
+    var distanceToMiddle = this.calculateYardage("Middle")
+    var distanceToFront = this.calculateYardage("Front")
+
+    this.props.state.distanceToFront = distanceToFront;
+    this.props.state.distanceToMiddle = distanceToMiddle;
+    this.props.state.distanceToBack = distanceToBack;
+
+    console.log(this.props.state.distanceToBack)
+
   }
 
 
   render() {
-    var distanceToFront = this.calculateYardage()
-    console.log(this)
+    
+    this.frontMiddleBack()
+
     if(this.props.state.selectedPage === "round") {
       return (
         <section>
           <div>Hole {this.props.state.currentHole.number}</div>
           <br></br>
-          <div>Distance to front {distanceToFront}</div>
+          <div>Distance to Back: {this.props.state.distanceToBack}</div>
           <br></br>
+          <div>Distance to Middle: {this.props.state.distanceToMiddle}</div>
           <br></br>
+          <div>Distance to front: {this.props.state.distanceToFront}</div>
           <br></br>
           <br></br>
         <button onClick={this.getLocation}>Get Location</button>
