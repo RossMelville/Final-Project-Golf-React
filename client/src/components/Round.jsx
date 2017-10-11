@@ -25,26 +25,11 @@ class Round extends Component {
 
   recordShot() {
     if((this.props.previousLocationLat != null) && (this.props.currentLocationLat != null)) {
-      this.saveShot();
+      var distance = this.props.getShotDistance();
+      this.props.saveShot(distance);
     } else {
       console.log("unable to record shot");
     }
-  }
-
-  saveShot(){
-
-    const data = {
-          start_lat: this.props.previousLocationLat,
-          start_lon: this.props.previousLocationLon,
-          end_lat: this.props.currentLocationLat,
-          end_lon: this.props.currentLocationLon
-          }
-
-    const url = "http://localhost:3000/shots"
-    const xhr = new XMLHttpRequest()
-    xhr.open('POST', url)
-    xhr.setRequestHeader("Content-Type", "application/json")
-    xhr.send(JSON.stringify(data))  
   }
 
   handleChange(event) {
@@ -55,12 +40,18 @@ class Round extends Component {
   }
 
   render() {
-    // this.props.clubDetails();
     if(this.props.selectedPage === "round") {
 
       var options = this.props.clubs.map((club, index) => {
         return <option value={index} key={index}>{club}</option>;
       });
+
+      var shots = this.props.holeShots.map((shot, index) => {
+        return <div value={index} key={index}>{shot.club} - {shot.distance} yards</div>;
+      });
+
+      console.log(shots);
+      
 
       return (
         <section>
@@ -78,8 +69,9 @@ class Round extends Component {
             { options }
           </select>
           <br></br>
-        <button onClick={this.getLocation}>Get Location</button>
-        
+          <button onClick={this.getLocation}>Get Location</button>
+          <br></br>
+          <div></div>
         </section>
       )
     }else{

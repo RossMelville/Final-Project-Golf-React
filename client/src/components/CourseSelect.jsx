@@ -16,7 +16,6 @@ class CourseSelect extends Component {
   render() {
     if(this.props.selectedPage === "selectCourse") {
       var options = this.props.courses.map((course, index) => {
-            console.log(course.id)
             return <option value={index} key={index}>{course.name}</option>;
           });
 

@@ -28,14 +28,14 @@ class GolfContainer extends Component {
       clubs: ["", "Driver", "3 Wood", "3 Iron", "4 Iron", "5 Iron", "6 Iron", "7 Iron", "8 Iron", "9 Iron", "PW", "Wedge 52", "Wedge 56", "Wedge 60", "Putter"],
       selectedClub: "",
       selectedClubShots: [],
-      selectedClubDetails: []
+      selectedClubDetails: [],
+      holeShots: [],
+      shotDistance: null
 
     }
     this.startRound = this.startRound.bind(this)
     this.roundStats = this.roundStats.bind(this)
     this.clubStats = this.clubStats.bind(this)
-  
-
   }
 
   componentDidMount() {
@@ -119,7 +119,6 @@ class GolfContainer extends Component {
     this.setState({currentHole: hole})
 
     var round = this.saveRound(course)
-
   }
 
   saveRound(course) {
@@ -159,8 +158,6 @@ class GolfContainer extends Component {
     this.setState({distanceToFront:  distanceToF});
     this.setState({distanceToMiddle:  distanceToM});
     this.setState({distanceToBack:  distanceToB});
-
-    console.log(this.state.distanceToBack)
   }
 
   degreesToRadians(degrees) {
@@ -208,28 +205,99 @@ class GolfContainer extends Component {
 
   setClub(club) {
     this.setState({selectedClub: club});
-    this.clubDetails(club);
+    if(club == "Putter"){
+      this.setState({selectedPage: "putting"});
+    }else{
+      this.getClubShotDetails(club);
+    }
   }
 
-  clubDetails(club) {
+  getClubShotDetails(club) {
     let selectedShots = this.state.shots.filter(function(shot){
       return shot.club == club
     });
     this.setState({selectedClubShots: selectedShots});
   }
 
-  clubMatch(shot) {
-    return shot.club === this.state.selectedClub
+  getShotDistance() {
+    var lat1 = this.state.currentLocationLat;
+    var lon1 = this.state.currentLocationLon;
+    var lat2 = this.state.previousLocationLat;
+    var lon2 = this.state.previousLocationLon;
+
+    var yard = this.distanceInYards(lat1, lon1, lat2, lon2);
+
+    var distance = Math.round(yard);
+
+    var copyShots = this.state.holeShots;
+    var club = this.state.selectedClub;
+    copyShots.push({club, distance});
+    this.setState({holeShots: copyShots});
+
+    return distance;
+  }
+
+  saveShot(shotDistance){
+    console.log(this.state.currentRound)
+    const data = {
+          start_lat: this.state.previousLocationLat,
+          start_lon: this.state.previousLocationLon,
+          end_lat: this.state.currentLocationLat,
+          end_lon: this.state.currentLocationLon,
+          distance: shotDistance,
+          club: this.state.selectedClub,
+          hole_id: this.state.currentHole.id,
+          round_id: this.state.currentRound["id"]
+          }
+
+    const url = "http://localhost:3000/shots"
+    const xhr = new XMLHttpRequest()
+    xhr.open('POST', url)
+    xhr.setRequestHeader("Content-Type", "application/json")
+    xhr.send(JSON.stringify(data))  
   }
 
   render() {
     return(
       <section>
-        <Home selectedPage={this.state.selectedPage} selectCourse={this.selectCourse.bind(this)} roundStats={this.roundStats.bind(this)} clubStats={this.clubStats.bind(this)}/>
-        <Round setPreviousPosition={this.setPreviousPosition.bind(this)} setCurrentPosition={this.setCurrentPosition.bind(this)} selectedPage={this.state.selectedPage} currentLocationLat={this.state.currentLocationLat} currentLocationLon={this.state.currentLocationLon} previousLocationLat={this.state.previousLocationLat} previousLocationLon={this.state.previousLocationLon} currentHole={this.state.currentHole} currentRound={this.state.currentRound} distanceToFront={this.state.distanceToFront} distanceToMiddle={this.state.distanceToMiddle} distanceToBack={this.state.distanceToBack} clubs={this.state.clubs} selectedClub={this.state.selectedClub} setClub={this.setClub.bind(this)} clubDetails={this.clubDetails.bind(this)}/>
-        <RoundStats selectedPage={this.state.selectedPage}/>
-        <ClubStats selectedPage={this.state.selectedPage}/>
-        <CourseSelect courses={this.state.courses} selectedPage={this.state.selectedPage} selectedCourse={this.state.selectedCourse} setCourse={this.setCourse.bind(this)}/>      
+        <Home 
+        selectedPage={this.state.selectedPage} 
+        selectCourse={this.selectCourse.bind(this)} 
+        roundStats={this.roundStats.bind(this)} 
+        clubStats={this.clubStats.bind(this)}/>
+
+        <Round 
+        setPreviousPosition={this.setPreviousPosition.bind(this)} 
+        setCurrentPosition={this.setCurrentPosition.bind(this)} 
+        selectedPage={this.state.selectedPage} 
+        currentLocationLat={this.state.currentLocationLat} 
+        currentLocationLon={this.state.currentLocationLon} 
+        previousLocationLat={this.state.previousLocationLat} 
+        previousLocationLon={this.state.previousLocationLon} 
+        currentHole={this.state.currentHole} 
+        currentRound={this.state.currentRound} 
+        distanceToFront={this.state.distanceToFront} 
+        distanceToMiddle={this.state.distanceToMiddle} 
+        distanceToBack={this.state.distanceToBack} 
+        clubs={this.state.clubs} 
+        selectedClub={this.state.selectedClub} 
+        setClub={this.setClub.bind(this)} 
+        getShotDistance={this.getShotDistance.bind(this)} 
+        saveShot={this.saveShot.bind(this)}
+        holeShots={this.state.holeShots}/>
+
+        <RoundStats 
+        selectedPage={this.state.selectedPage}/>
+
+        <ClubStats 
+        selectedPage={this.state.selectedPage}/>
+
+        <CourseSelect 
+        courses={this.state.courses} 
+        selectedPage={this.state.selectedPage} 
+        selectedCourse={this.state.selectedCourse} 
+        setCourse={this.setCourse.bind(this)}/> 
+
       </section>
     )
   }
