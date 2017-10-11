@@ -25,7 +25,8 @@ class GolfContainer extends Component {
       distanceToBack: "Please plot your ball position",
       distanceToMiddle: "Please plot your ball position",
       distanceToFront: "Please plot your ball position",
-      clubs: ["", "Driver", "3 Wood", "3 Iron", "4 Iron", "5 Iron", "6 Iron", "7 Iron", "8 Iron", "9 Iron", "PW", "Wedge 52", "Wedge 56", "Wedge 60", "Putter"]
+      clubs: ["", "Driver", "3 Wood", "3 Iron", "4 Iron", "5 Iron", "6 Iron", "7 Iron", "8 Iron", "9 Iron", "PW", "Wedge 52", "Wedge 56", "Wedge 60", "Putter"],
+      selectedClub: ""
 
     }
     this.startRound = this.startRound.bind(this)
@@ -203,12 +204,16 @@ class GolfContainer extends Component {
     return Math.round(yard); 
   }
 
+  setClub(club) {
+    console.log(club)
+    this.setState({selectedClub: club})
+  }
 
   render() {
     return(
       <section>
         <Home selectedPage={this.state.selectedPage} selectCourse={this.selectCourse.bind(this)} roundStats={this.roundStats.bind(this)} clubStats={this.clubStats.bind(this)}/>
-        <Round setPreviousPosition={this.setPreviousPosition.bind(this)} setCurrentPosition={this.setCurrentPosition.bind(this)} selectedPage={this.state.selectedPage} currentLocationLat={this.state.currentLocationLat} currentLocationLon={this.state.currentLocationLon} previousLocationLat={this.state.previousLocationLat} previousLocationLon={this.state.previousLocationLon} currentHole={this.state.currentHole} currentRound={this.state.currentRound} distanceToFront={this.state.distanceToFront} distanceToMiddle={this.state.distanceToMiddle} distanceToBack={this.state.distanceToBack} clubs={this.state.clubs}/>
+        <Round setPreviousPosition={this.setPreviousPosition.bind(this)} setCurrentPosition={this.setCurrentPosition.bind(this)} selectedPage={this.state.selectedPage} currentLocationLat={this.state.currentLocationLat} currentLocationLon={this.state.currentLocationLon} previousLocationLat={this.state.previousLocationLat} previousLocationLon={this.state.previousLocationLon} currentHole={this.state.currentHole} currentRound={this.state.currentRound} distanceToFront={this.state.distanceToFront} distanceToMiddle={this.state.distanceToMiddle} distanceToBack={this.state.distanceToBack} clubs={this.state.clubs} selectedClub={this.state.selectedClub} setClub={this.setClub.bind(this)}/>
         <RoundStats selectedPage={this.state.selectedPage}/>
         <ClubStats selectedPage={this.state.selectedPage}/>
         <CourseSelect courses={this.state.courses} selectedPage={this.state.selectedPage} selectedCourse={this.state.selectedCourse} setCourse={this.setCourse.bind(this)}/>      

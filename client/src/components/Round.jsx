@@ -47,9 +47,20 @@ class Round extends Component {
     xhr.send(JSON.stringify(data))  
   }
 
-  render() {
+  handleChange(event) {
+    var clubIndex = event.target.value;
+    var club = this.props.clubs[clubIndex];
 
+    this.props.setClub(club);
+  }
+
+  render() {
     if(this.props.selectedPage === "round") {
+
+      var options = this.props.clubs.map((club, index) => {
+        return <option value={index} key={index}>{club}</option>;
+      });
+
       return (
         <section>
           <div>Hole {this.props.currentHole.number}</div>
@@ -60,6 +71,11 @@ class Round extends Component {
           <br></br>
           <div>Distance to front: {this.props.distanceToFront}</div>
           <br></br>
+          <div>Selected Club: {this.props.selectedClub}</div>
+          <br></br>
+          <select id="clubs" value={ this.props.selectedClub } onChange={this.handleChange.bind(this)}>
+            { options }
+          </select>
           <br></br>
         <button onClick={this.getLocation}>Get Location</button>
         
