@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
 
-
-
 class Round extends Component {
 
   constructor(props) {
@@ -9,8 +7,6 @@ class Round extends Component {
     this.getLocation = this.getLocation.bind(this);
     this.setPosition = this.setPosition.bind(this);
     this.recordShot = this.recordShot.bind(this);
-
-
   }
 
   getLocation(event) {
@@ -48,15 +44,8 @@ class Round extends Component {
     const xhr = new XMLHttpRequest()
     xhr.open('POST', url)
     xhr.setRequestHeader("Content-Type", "application/json")
-    xhr.send(JSON.stringify(data))
-
-  
+    xhr.send(JSON.stringify(data))  
   }
-
-  
-
-  
-
 
   render() {
 
