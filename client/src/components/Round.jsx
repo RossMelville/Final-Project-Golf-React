@@ -55,6 +55,7 @@ class Round extends Component {
   }
 
   render() {
+    // this.props.clubDetails();
     if(this.props.selectedPage === "round") {
 
       var options = this.props.clubs.map((club, index) => {
