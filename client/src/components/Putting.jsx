@@ -20,9 +20,9 @@ class Putting extends Component {
 
     if(this.props.selectedPage === "putting") {
     return(
-      <section>
-        <div>Please enter how many putts you have taken:</div>
-        <select id="putts" value={this.props.noOfPutts} onChange={this.handleChange.bind(this)}>
+      <section id='standard'>
+        <div id='header'>Please enter how many putts you have taken:</div>
+        <select id="select" value={this.props.noOfPutts} onChange={this.handleChange.bind(this)}>
           { options }
         </select>
       </section>

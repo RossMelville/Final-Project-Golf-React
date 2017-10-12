@@ -1,0 +1,38 @@
+body {
+  background-color: #2DAAE1;
+  font-size: 30px;
+  font-family: 'Times', monospace;
+  text-align: center;
+  width:80%;
+  color: white;
+}
+
+h1 {
+  font-size: 60px;
+  font-family: 'Times', monospace;
+  text-align: center;
+  width:80%;
+  color: white;
+
+}
+
+.standard {
+  border-color: white;
+  height: 80px;
+  width: 200px;
+
+}
+
+button {
+  font-size: 34px;
+  background-color: #2DAAE1;
+  font-family: 'Times', monospace;
+  border-radius: 5px;
+  height: 80px;
+  width: 200px;
+  border-style: solid;
+  color: white;
+  border-width: 1px;
+  border-color: white;
+  margin: 0 20px 0 20px;
+

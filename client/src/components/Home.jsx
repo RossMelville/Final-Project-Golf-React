@@ -13,9 +13,8 @@ class Home extends Component {
         <section>
           <h1>Golf Shot Tracker</h1>
           <button onClick={this.props.selectCourse}>Start Round</button>
-          <br></br>
+          <br></br><br></br><br></br><br></br><br></br>
           <button onClick={this.props.roundStats}>Round Stats</button>
-          <br></br>
           <button onClick={this.props.clubStats}>Club Stats</button>
         </section>
       )

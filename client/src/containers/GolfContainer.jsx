@@ -263,10 +263,12 @@ class GolfContainer extends Component {
           hole_id: this.state.currentHole.id,
           round_id: this.state.currentRound.id
     }  
+    this.setState({})
     this.logShot(data);
   }
 
   logShot(data) {
+    this.setState({selectedClub: ""});
     const url = "http://localhost:3000/shots"
     const xhr = new XMLHttpRequest()
     xhr.open('POST', url)
@@ -300,7 +302,7 @@ class GolfContainer extends Component {
 
   render() {
     return(
-      <section>
+      <section id='standard'>
         <Home 
         selectedPage={this.state.selectedPage} 
         selectCourse={this.selectCourse.bind(this)} 

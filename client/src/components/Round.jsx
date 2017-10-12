@@ -51,8 +51,8 @@ class Round extends Component {
       });
       
       return (
-        <section>
-          <div>Hole {this.props.currentHole.number}</div>
+        <section id='standard'>
+          <div id='header'>Hole {this.props.currentHole.number}</div>
           <br></br>
           <div>Distance to Back: {this.props.distanceToBack}</div>
           <br></br>
@@ -62,7 +62,7 @@ class Round extends Component {
           <br></br>
           <div>Selected Club: {this.props.selectedClub}</div>
           <br></br>
-          <select id="clubs" value={ this.props.selectedClub } onChange={this.handleChange.bind(this)}>
+          <select id="select" value={ this.props.selectedClub } onChange={this.handleChange.bind(this)}>
             { options }
           </select>
           <br></br>
